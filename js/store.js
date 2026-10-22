@@ -1,7 +1,7 @@
-/* NEXUS AI · estado de tareas a partir de eventos REALES del backend (lógica pura) */
+/* AURA-X · estado de tareas a partir de eventos REALES del backend (lógica pura) */
 (function () {
   'use strict';
-  const N = (globalThis.Nexus = globalThis.Nexus || {});
+  const A = (globalThis.Aura = globalThis.Aura || {});
   const TERMINAL = ['completed', 'failed'];
   const STATUS_ES = {
     pending: 'Pendiente', analyzing: 'Analizando requisitos', awaiting_user: 'Esperando tu respuesta',
@@ -57,5 +57,5 @@
     return t;
   }
 
-  N.store = { emptyTask, applyEvent, isActive, describe, STATUS_ES, TERMINAL };
+  A.store = { emptyTask, applyEvent, isActive, describe, STATUS_ES, TERMINAL };
 })();

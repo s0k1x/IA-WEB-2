@@ -1,10 +1,10 @@
-/* NEXUS AI · registro de conectores MCP.
+/* AURA-X · registro de conectores MCP.
    El navegador solo guarda nombre + URL. La conexión real al servidor MCP y sus
    credenciales viven en el backend (Supabase Edge Function + secretos). */
 (function () {
   'use strict';
-  const N = (globalThis.Nexus = globalThis.Nexus || {});
-  const KEY = 'nexus.mcp.v1';
+  const A = (globalThis.Aura = globalThis.Aura || {});
+  const KEY = 'aura.mcp.v1';
   const SECRET_PARAMS = /(key|token|secret|password|auth)/i;
 
   function validateUrl(u) {
@@ -17,12 +17,18 @@
     return null;
   }
 
+  function cleanTools(tools) {
+    return (Array.isArray(tools) ? tools : [])
+      .filter((t) => t && typeof t.name === 'string')
+      .map((t) => ({ name: t.name.slice(0, 120), description: String(t.description || '').slice(0, 500) }));
+  }
+
   function createRegistry(storage) {
-    let list;
-    try { list = JSON.parse(storage.getItem(KEY)) || []; } catch { list = []; }
-    if (!Array.isArray(list)) list = [];
-    const save = () => { try { storage.setItem(KEY, JSON.stringify(list)); } catch { /* sin espacio */ } };
+    const raw = A.storage.readJSON(storage, KEY, []);
+    let list = Array.isArray(raw) ? raw.filter((s) => s && typeof s.url === 'string' && typeof s.name === 'string') : [];
+    const save = () => A.storage.writeJSON(storage, KEY, list);
     const get = (id) => list.find((s) => s.id === id) || null;
+    const mkId = () => 'mcp_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
     return {
       list: () => [...list], get,
@@ -34,21 +40,25 @@
         const err = validateUrl(u);
         if (err) throw new Error(err);
         if (list.some((s) => s.url === u)) throw new Error('Ese servidor ya está añadido');
-        const s = { id: 'mcp_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: n, url: u, enabled: true, tools: null };
+        const s = { id: mkId(), name: n, url: u, enabled: true, tools: null };
         list.push(s); save(); return s;
       },
       remove(id) { list = list.filter((s) => s.id !== id); save(); },
       toggle(id, enabled) { const s = get(id); if (s) { s.enabled = Boolean(enabled); save(); } },
-      setTools(id, tools) {
-        const s = get(id); if (!s) return;
-        s.tools = (Array.isArray(tools) ? tools : [])
-          .filter((t) => t && typeof t.name === 'string')
-          .map((t) => ({ name: t.name.slice(0, 120), description: String(t.description || '').slice(0, 500) }));
-        save();
-      },
+      setTools(id, tools) { const s = get(id); if (s) { s.tools = cleanTools(tools); save(); } },
       enabledForTask: () => list.filter((s) => s.enabled).map((s) => ({ name: s.name, url: s.url })),
+      importMany(items) {
+        let added = 0, skipped = 0;
+        for (const it of Array.isArray(items) ? items : []) {
+          if (!it || validateUrl(String(it.url || '')) || !String(it.name || '').trim() || list.some((s) => s.url === it.url)) { skipped++; continue; }
+          list.push({ id: mkId(), name: String(it.name).trim().slice(0, 40), url: it.url, enabled: Boolean(it.enabled), tools: it.tools ? cleanTools(it.tools) : null });
+          added++;
+        }
+        save(); return { added, skipped };
+      },
+      raw: () => list.map((s) => ({ ...s })),
     };
   }
 
-  N.mcp = { createRegistry, validateUrl };
+  A.mcp = { createRegistry, validateUrl };
 })();

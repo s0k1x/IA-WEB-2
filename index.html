@@ -1,176 +1,250 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050506">
-  <title>NEXUS AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070b">
+  <meta name="description" content="AURA-X · plataforma de agentes de IA para desarrollo de software">
+  <title>AURA-X</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="bg-aura" aria-hidden="true"></div>
+  <div class="scrim" id="scrim"></div>
 
-  <header class="topbar">
-    <button class="icon-btn mobile-only" id="toggle-sidebar" type="button" aria-label="Abrir menú">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-    <div class="brand"><div class="brand-mark">N</div><span class="brand-name">NEXUS AI</span></div>
-    <div class="top-actions">
-      <span id="conn" class="badge" data-ok="false" role="status">Comprobando…</span>
-      <label class="sr-only" for="tier-select">Nivel de modelo</label>
-      <select id="tier-select" class="select tier-select">
-        <option value="economy">Económico</option>
-        <option value="general">General</option>
-        <option value="advanced">Avanzado</option>
-      </select>
-      <button class="icon-btn activity-toggle" id="toggle-activity" type="button" aria-label="Ver actividad">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
-      </button>
-      <button class="icon-btn" id="open-settings" type="button" aria-label="Configuración">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <div class="layout">
-    <nav class="sidebar" id="sidebar" aria-label="Conversaciones y conectores">
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Conversaciones, proyectos y conectores">
+      <div class="side-head">
+        <a class="brand" href="./" aria-label="AURA-X, inicio">
+          <span class="brand-tile"><img src="icons/aura-mark.png" alt="" width="26" height="26"></span>
+          <span class="wordmark">AURA<span class="x">-X</span></span>
+        </a>
+      </div>
       <button class="spark-btn block" id="new-chat" type="button">
         <span class="dots-border"></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="sparkle" aria-hidden="true"><path stroke-linejoin="round" stroke-linecap="round" d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z"/></svg><span class="text">Nueva conversación</span>
       </button>
-      <label class="sr-only" for="conv-search">Buscar conversaciones</label>
-      <input id="conv-search" class="field" type="search" placeholder="Buscar conversaciones…">
-      <section>
-        <p class="section-title">Conversaciones</p>
-        <ul id="conv-list" class="conv-list"></ul>
-      </section>
-      <section>
-        <p class="section-title"><span>MCP · <span id="mcp-count">0</span> activos</span>
-          <button class="small-btn" id="add-mcp" type="button">+ Añadir</button></p>
-        <ul id="mcp-list" class="mcp-list"></ul>
-      </section>
-      <p class="hint sidebar-foot">Las conversaciones se guardan en este navegador. La sincronización con Supabase llegará con el backend.</p>
-    </nav>
-
-    <main class="chat">
-      <div id="setup" class="notice" hidden>
-        Supabase sin configurar: NEXUS todavía no puede responder.
-        <button class="small-btn" id="open-settings-2" type="button">Configurar</button>
+      <div class="search-wrap">
+        <span class="search-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <label class="sr-only" for="conv-search">Buscar conversaciones</label>
+        <input id="conv-search" class="field with-ico" type="search" placeholder="Buscar conversaciones" autocomplete="off">
       </div>
-      <section id="messages" class="messages" aria-live="polite" aria-label="Conversación"></section>
-
-      <div class="composer">
-        <div id="working" class="working" hidden>
-          <div class="loader-card">
-            <div class="loader"><p>NEXUS ·</p><div class="loader-words" id="loader-words"></div></div>
-            <button class="small-btn" id="stop-btn" type="button">Detener</button>
-          </div>
-        </div>
-        <div id="attach-list" class="attach-list"></div>
-
-        <!-- Campo de chat basado en Uiverse.io (Lakshay-art), adaptado -->
-        <form id="chat-glow" class="chat-glow" autocomplete="off">
-          <div class="glow"></div>
-          <div class="darkBorderBg"></div><div class="darkBorderBg"></div><div class="darkBorderBg"></div>
-          <div class="white"></div>
-          <div class="border"></div>
-          <div class="chat-main">
-            <label for="chat-input" class="sr-only">Mensaje para NEXUS</label>
-            <textarea id="chat-input" class="chat-input" rows="1" placeholder="¿Qué quieres construir?"></textarea>
-            <div class="pink-mask" aria-hidden="true"></div>
-            <button type="button" class="attach-btn" id="attach-btn" aria-label="Adjuntar archivos de texto">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <defs><linearGradient id="clip-g" gradientTransform="rotate(50)"><stop stop-color="#f8e7f8" offset="0%"/><stop stop-color="#b6a9b7" offset="60%"/></linearGradient></defs>
-                <path stroke="url(#clip-g)" d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/>
-              </svg>
-            </button>
-            <input type="file" id="file-input" multiple hidden>
-            <div class="send-border" aria-hidden="true"></div>
-            <button type="submit" class="send-btn" aria-label="Enviar mensaje">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d6d6e6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-            </button>
-          </div>
-        </form>
-        <p class="composer-hint">Enter para enviar · Shift+Enter nueva línea · Ctrl+K nueva conversación</p>
+      <div class="project-row">
+        <label class="sr-only" for="project-filter">Filtrar por proyecto</label>
+        <select id="project-filter" class="select grow"></select>
+        <button class="icon-btn sm" id="manage-projects" type="button" aria-label="Gestionar proyectos" title="Gestionar proyectos"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
       </div>
-    </main>
-
-    <aside class="activity" id="activity" aria-label="Actividad de los agentes">
-      <p class="section-title">Actividad</p>
-      <div id="act-empty" class="panel-card">
-        <p class="hint">Cuando NEXUS trabaje en una tarea verás aquí su estado real: agente activo, archivos, errores y costes.</p>
+      <div class="side-scroll">
+        <div id="conv-list"></div>
+        <button class="link-btn" id="toggle-archived" type="button" hidden></button>
+        <section class="side-section" aria-label="Conectores MCP">
+          <p class="section-title"><span>MCP · <span id="mcp-count">0</span> activos</span><button class="small-btn" id="add-mcp" type="button">+ Añadir</button></p>
+          <ul id="mcp-list" class="mcp-list"></ul>
+        </section>
       </div>
-      <div id="act-task" class="act-task" hidden>
-        <div class="panel-card">
-          <div class="kv"><span>Estado</span><span id="act-status" class="status-pill">—</span></div>
-          <div class="kv"><span>Agente</span><span id="act-agent">—</span></div>
-          <div class="kv"><span>Relevos entre modelos</span><span id="act-handoffs">0</span></div>
-        </div>
-        <div id="authz" class="panel-card authz" hidden>
-          <strong>NEXUS pide tu autorización</strong>
-          <p class="hint">Revisa la conversación antes de decidir.</p>
-          <div class="row">
-            <button class="btn-ghost" id="authz-yes" type="button">Aprobar</button>
-            <button class="btn-ghost btn-danger" id="authz-no" type="button">Rechazar</button>
-          </div>
-        </div>
-        <div class="panel-card"><p class="section-title">Archivos modificados</p><ul id="act-files" class="list-plain"></ul></div>
-        <div class="panel-card"><p class="section-title">Errores</p><ul id="act-errors" class="list-plain"></ul></div>
-        <div class="panel-card">
-          <p class="section-title">Costes</p>
-          <div class="kv"><span>Reportado por el proveedor</span><span id="cost-rep">$0.0000</span></div>
-          <div class="kv"><span>Estimado</span><span id="cost-est">$0.0000</span></div>
-          <div class="kv"><span>Llamadas sin dato</span><span id="cost-unk">0</span></div>
-        </div>
-      </div>
-
-      <!-- Terminal basada en Uiverse.io (Kemboi-Dun), adaptada -->
-      <div class="term">
-        <div class="term-toolbar">
-          <div class="term-dots" aria-hidden="true"><span class="term-dot red"></span><span class="term-dot"></span><span class="term-dot"></span></div>
-          <p class="term-user" id="term-user">nexus@supabase: ~</p>
-          <button class="term-tab" id="term-clear" type="button" aria-label="Limpiar consola">⌫</button>
-        </div>
-        <div class="term-body" id="term-body" role="log" aria-label="Consola de eventos"></div>
-      </div>
-
-      <div class="panel-card export-card">
-        <p class="section-title">Exportar conversación</p>
-        <!-- Botón de descarga basado en Uiverse.io (nazar-gavrylyk), adaptado -->
-        <div class="dl">
-          <label class="dl-label">
-            <input type="checkbox" class="dl-input" id="export-input" aria-label="Exportar conversación como JSON">
-            <span class="dl-circle">
-              <svg class="dl-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19V5m0 14-4-4m4 4 4-4"/></svg>
-              <span class="dl-square"></span>
-            </span>
-            <span class="dl-title">Exportar</span>
-            <span class="dl-title">Listo</span>
-          </label>
-        </div>
+      <div class="side-foot">
+        <button class="foot-btn" id="open-settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configuración</span></button>
+        <span class="foot-version">v2</span>
       </div>
     </aside>
+
+    <div class="main-col">
+      <header class="topbar">
+        <button class="icon-btn" id="toggle-sidebar" type="button" aria-label="Mostrar u ocultar la barra lateral" title="Barra lateral (Alt B)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+        <div class="top-title"><h1 id="chat-title">Nueva conversación</h1><span class="pill" id="chat-project" hidden></span></div>
+        <div class="top-actions">
+          <button class="badge" id="conn" type="button" data-ok="false" title="Estado de la conexión"><span class="dot"></span><span class="badge-text">Comprobando…</span></button>
+          <button class="kbd-btn" id="open-palette" type="button" aria-label="Abrir buscador de comandos"><span>Buscar</span><kbd>Ctrl K</kbd></button>
+          <button class="icon-btn" id="toggle-activity" type="button" aria-label="Mostrar u ocultar la actividad" title="Actividad (Alt J)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></button>
+        </div>
+      </header>
+
+      <div class="content">
+        <main class="chat">
+          <div id="setup" class="notice" hidden>
+            <span>Supabase sin configurar: AURA-X todavía no puede responder.</span>
+            <button class="small-btn" id="open-settings-2" type="button">Configurar</button>
+          </div>
+          <section id="messages" class="messages" aria-live="polite" aria-label="Conversación"></section>
+          <div class="drop-overlay" id="drop-overlay" hidden><div>Suelta los archivos para adjuntarlos</div></div>
+
+          <div class="composer">
+            <div id="working" class="working" hidden>
+              <div class="loader-card">
+                <div class="loader"><p>AURA-X ·</p><div class="loader-words" id="loader-words"></div></div>
+                <button class="small-btn" id="stop-btn" type="button">Detener</button>
+              </div>
+            </div>
+            <div id="attach-list" class="attach-list"></div>
+            <div class="slash-wrap">
+              <div id="slash-menu" class="slash-menu" role="listbox" aria-label="Comandos" hidden></div>
+              <!-- Campo de chat basado en Uiverse.io (Lakshay-art), adaptado -->
+              <form id="chat-glow" class="chat-glow" autocomplete="off">
+                <div class="glow"></div>
+                <div class="darkBorderBg"></div><div class="darkBorderBg"></div><div class="darkBorderBg"></div>
+                <div class="white"></div>
+                <div class="border"></div>
+                <div class="chat-main">
+                  <label for="chat-input" class="sr-only">Mensaje para AURA-X</label>
+                  <textarea id="chat-input" class="chat-input" rows="1" placeholder="Escribe a AURA-X…" aria-autocomplete="list" aria-expanded="false"></textarea>
+                  <div class="pink-mask" aria-hidden="true"></div>
+                  <button type="button" class="attach-btn" id="attach-btn" aria-label="Adjuntar archivos de texto o código"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="clip-g" gradientTransform="rotate(50)"><stop stop-color="#f1f5ff" offset="0%"/><stop stop-color="#9aa8c0" offset="60%"/></linearGradient></defs><path stroke="url(#clip-g)" d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg></button>
+                  <input type="file" id="file-input" multiple hidden>
+                  <div class="send-border" aria-hidden="true"></div>
+                  <button type="submit" class="send-btn" aria-label="Enviar mensaje"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dbe6ff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+                </div>
+              </form>
+            </div>
+            <div class="composer-bar">
+              <button class="chip-btn" id="chip-agents" type="button" aria-haspopup="dialog"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></svg><span>Agentes: <b id="agents-label">Auto</b></span></button>
+              <label class="chip-select"><span class="sr-only">Nivel del modelo</span>
+                <select id="tier-select" class="select-bare"><option value="economy">Económico</option><option value="general">General</option><option value="advanced">Avanzado</option></select>
+              </label>
+              <button class="chip-btn" id="slash-btn" type="button" aria-label="Insertar un comando"><span class="slash-glyph">/</span><span>Comandos</span></button>
+              <button class="chip-btn mic" id="mic-btn" type="button" aria-label="Dictar por voz" aria-pressed="false" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v4"/><path d="M8 23h8"/></svg><span>Voz</span></button>
+              <span class="token-est" id="token-est" hidden></span>
+            </div>
+          </div>
+        </main>
+
+        <aside class="activity" id="activity" aria-label="Actividad de los agentes">
+          <div class="tabs" id="activity-tabs" role="tablist" aria-label="Paneles">
+            <button role="tab" id="t-activity" data-tab="activity" aria-controls="tab-activity" aria-selected="true">Actividad</button>
+            <button role="tab" id="t-code" data-tab="code" aria-controls="tab-code" aria-selected="false" tabindex="-1">Código <span class="count" id="code-count" hidden>0</span></button>
+            <button role="tab" id="t-usage" data-tab="usage" aria-controls="tab-usage" aria-selected="false" tabindex="-1">Uso y datos</button>
+          </div>
+
+          <section id="tab-activity" class="tab-panel" role="tabpanel" aria-labelledby="t-activity">
+            <div id="act-empty" class="panel-card"><p class="hint">Cuando AURA-X trabaje en una tarea verás aquí su estado real: agente activo, archivos, errores y costes.</p></div>
+            <div id="act-task" class="act-task" hidden>
+              <div class="panel-card">
+                <div class="kv"><span>Estado</span><span id="act-status" class="status-pill">—</span></div>
+                <div class="kv"><span>Agente</span><span id="act-agent">—</span></div>
+                <div class="kv"><span>Relevos entre modelos</span><span id="act-handoffs">0</span></div>
+              </div>
+              <div id="authz" class="panel-card authz" hidden>
+                <strong>AURA-X pide tu autorización</strong>
+                <p class="hint">Revisa la conversación antes de decidir.</p>
+                <div class="row"><button class="btn-ghost" id="authz-yes" type="button">Aprobar</button><button class="btn-ghost btn-danger" id="authz-no" type="button">Rechazar</button></div>
+              </div>
+              <div class="panel-card"><p class="section-title">Archivos modificados</p><ul id="act-files" class="list-plain"></ul></div>
+              <div class="panel-card"><p class="section-title">Errores</p><ul id="act-errors" class="list-plain"></ul></div>
+              <div class="panel-card">
+                <p class="section-title">Coste de esta tarea</p>
+                <div class="kv"><span>Reportado por el proveedor</span><span id="cost-rep">$0.0000</span></div>
+                <div class="kv"><span>Estimado</span><span id="cost-est">$0.0000</span></div>
+                <div class="kv"><span>Llamadas sin dato</span><span id="cost-unk">0</span></div>
+              </div>
+            </div>
+            <!-- Terminal basada en Uiverse.io (Kemboi-Dun), adaptada -->
+            <div class="term">
+              <div class="term-toolbar">
+                <div class="term-dots" aria-hidden="true"><span class="term-dot red"></span><span class="term-dot"></span><span class="term-dot"></span></div>
+                <p class="term-user" id="term-user">aura@supabase: ~</p>
+                <button class="term-tab" id="term-clear" type="button" aria-label="Limpiar consola">limpiar</button>
+              </div>
+              <div class="term-body" id="term-body" role="log" aria-label="Consola de eventos"></div>
+            </div>
+          </section>
+
+          <section id="tab-code" class="tab-panel" role="tabpanel" aria-labelledby="t-code" hidden>
+            <p class="hint" id="code-empty">Aquí aparecerá el código que escriba AURA-X en esta conversación, para copiarlo, descargarlo o ver una vista previa.</p>
+            <ul id="code-list" class="code-list"></ul>
+          </section>
+
+          <section id="tab-usage" class="tab-panel" role="tabpanel" aria-labelledby="t-usage" hidden>
+            <div class="panel-card">
+              <p class="section-title">En este navegador</p>
+              <div class="kv"><span>Conversaciones</span><span id="stat-convs">0</span></div>
+              <div class="kv"><span>Mensajes</span><span id="stat-msgs">0</span></div>
+              <div class="kv"><span>Proyectos</span><span id="stat-projects">0</span></div>
+              <div class="kv"><span>Espacio usado</span><span id="stat-storage">0 KB</span></div>
+            </div>
+            <div class="panel-card">
+              <p class="section-title">Costes de esta sesión</p>
+              <div class="kv"><span>Reportado por el proveedor</span><span id="sess-rep">$0.0000</span></div>
+              <div class="kv"><span>Estimado</span><span id="sess-est">$0.0000</span></div>
+              <div class="kv"><span>Llamadas sin dato</span><span id="sess-unk">0</span></div>
+              <p class="hint">«Sin dato» significa que el proveedor no informó del coste: no se inventa ninguna cifra.</p>
+            </div>
+            <div class="panel-card export-card">
+              <p class="section-title">Exportar esta conversación</p>
+              <!-- Botón de descarga basado en Uiverse.io (nazar-gavrylyk), adaptado -->
+              <div class="dl">
+                <label class="dl-label">
+                  <input type="checkbox" class="dl-input" id="export-input" aria-label="Exportar conversación como JSON">
+                  <span class="dl-circle"><svg class="dl-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 19V5m0 14-4-4m4 4 4-4"/></svg><span class="dl-square"></span></span>
+                  <span class="dl-title">JSON</span><span class="dl-title">Listo</span>
+                </label>
+              </div>
+              <button class="small-btn" id="export-md" type="button">Exportar en Markdown</button>
+              <button class="small-btn" id="backup-download" type="button">Copia de seguridad completa</button>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
   </div>
 
   <!-- Configuración -->
-  <dialog id="settings" aria-labelledby="settings-title">
-    <form method="dialog">
-      <h2 id="settings-title">Configuración</h2>
-      <p class="section-title">Supabase</p>
-      <label class="form-row">URL del proyecto<input id="cfg-url" class="field" type="url" placeholder="https://xxxx.supabase.co"></label>
-      <label class="form-row">Clave anon (pública)<input id="cfg-token" class="field" type="password" autocomplete="off"></label>
-      <p class="hint">Las claves de Anthropic, Google y de los servidores MCP se guardan solo como secretos en Supabase, nunca aquí.</p>
-
-      <p class="section-title gap">Comportamiento de los agentes</p>
-      <label class="neon-check"><input type="checkbox" id="pref-confirm"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Pedir confirmación antes de acciones destructivas</span></label>
-      <label class="neon-check"><input type="checkbox" id="pref-review"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Revisión por agentes especializados</span></label>
-      <label class="neon-check"><input type="checkbox" id="pref-web"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Permitir búsqueda web</span></label>
-
-      <div class="toggle-row"><span>Modo autónomo en tareas de bajo riesgo</span><label class="switch"><input type="checkbox" id="pref-auto" aria-label="Modo autónomo"><span class="slider"></span></label></div>
-      <div class="toggle-row"><span>Avisos del navegador (con la pestaña abierta)</span><label class="switch"><input type="checkbox" id="pref-notify" aria-label="Avisos del navegador"><span class="slider"></span></label></div>
-      <label class="form-row">Presupuesto máximo por tarea (USD, opcional)<input id="pref-budget" class="field" type="number" min="0" step="0.01" placeholder="Sin límite"></label>
-
+  <dialog id="settings" class="wide" aria-labelledby="settings-title">
+    <form id="settings-form" method="dialog">
+      <div class="dlg-head"><h2 id="settings-title">Configuración</h2></div>
+      <div class="tabs inline" id="settings-tabs" role="tablist" aria-label="Secciones">
+        <button type="button" role="tab" id="st-conn" data-stab="conn" aria-controls="stab-conn" aria-selected="true">Conexión</button>
+        <button type="button" role="tab" id="st-behavior" data-stab="behavior" aria-controls="stab-behavior" aria-selected="false" tabindex="-1">Agentes</button>
+        <button type="button" role="tab" id="st-instr" data-stab="instr" aria-controls="stab-instr" aria-selected="false" tabindex="-1">Instrucciones</button>
+        <button type="button" role="tab" id="st-data" data-stab="data" aria-controls="stab-data" aria-selected="false" tabindex="-1">Datos y tema</button>
+      </div>
+      <div class="dlg-body">
+        <section id="stab-conn" role="tabpanel" aria-labelledby="st-conn">
+          <label class="form-row">URL del proyecto de Supabase<input id="cfg-url" class="field" type="url" placeholder="https://xxxx.supabase.co" autocomplete="off"></label>
+          <label class="form-row">Clave pública (anon / publishable)<input id="cfg-token" class="field" type="password" autocomplete="off"></label>
+          <label class="form-row">Nombre de la Edge Function<input id="cfg-fn" class="field" type="text" placeholder="aura" autocomplete="off"></label>
+          <div class="row-inline"><button class="small-btn" id="test-conn" type="button">Probar conexión</button><span id="test-result" class="test-result" role="status"></span></div>
+          <p class="hint">Las claves de Anthropic, Google y de los servidores MCP se guardan solo como secretos en Supabase, nunca aquí. AURA-X rechaza claves secretas (service_role / sb_secret).</p>
+        </section>
+        <section id="stab-behavior" role="tabpanel" aria-labelledby="st-behavior" hidden>
+          <label class="neon-check"><input type="checkbox" id="pref-confirm"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Pedir confirmación antes de acciones destructivas</span></label>
+          <label class="neon-check"><input type="checkbox" id="pref-review"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Revisión independiente por agentes especializados</span></label>
+          <label class="neon-check"><input type="checkbox" id="pref-web"><span class="checkmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="neon-label">Permitir búsqueda web</span></label>
+          <div class="toggle-row"><span>Modo autónomo en tareas de bajo riesgo</span><label class="switch"><input type="checkbox" id="pref-auto" aria-label="Modo autónomo"><span class="slider"></span></label></div>
+          <div class="toggle-row"><span>Avisos del navegador (con la pestaña abierta)</span><label class="switch"><input type="checkbox" id="pref-notify" aria-label="Avisos del navegador"><span class="slider"></span></label></div>
+          <div class="two-col">
+            <label class="form-row">Presupuesto máximo por tarea (USD)<input id="pref-budget" class="field" type="number" min="0" step="0.01" placeholder="Sin límite"></label>
+            <label class="form-row">Rondas máximas de revisión<input id="pref-rounds" class="field" type="number" min="1" max="5" step="1"></label>
+          </div>
+        </section>
+        <section id="stab-instr" role="tabpanel" aria-labelledby="st-instr" hidden>
+          <label class="form-row">Instrucciones personales para todas las tareas
+            <textarea id="pref-instr" class="field area" rows="7" maxlength="2000" placeholder="Ej.: Responde siempre en español. Prefiero TypeScript estricto y cambios pequeños con pruebas."></textarea>
+          </label>
+          <p class="hint"><span id="instr-count">0</span>/2000 · Se envían con cada tarea, junto con las del proyecto si la conversación pertenece a uno.</p>
+        </section>
+        <section id="stab-data" role="tabpanel" aria-labelledby="st-data" hidden>
+          <p class="section-title">Tema</p>
+          <div class="segmented" role="radiogroup" aria-label="Tema">
+            <label><input type="radio" name="theme" value="dark" id="theme-dark"><span>Oscuro</span></label>
+            <label><input type="radio" name="theme" value="light" id="theme-light"><span>Claro</span></label>
+            <label><input type="radio" name="theme" value="system" id="theme-system"><span>Sistema</span></label>
+          </div>
+          <p class="section-title gap">Copia de seguridad</p>
+          <div class="row-inline wrap">
+            <button class="small-btn" id="backup-export" type="button">Descargar copia</button>
+            <button class="small-btn" id="backup-import-btn" type="button">Importar copia</button>
+            <input type="file" id="backup-import" accept="application/json,.json" hidden>
+          </div>
+          <p class="hint">La copia incluye conversaciones, proyectos y conectores. Nunca incluye claves ni tokens.</p>
+          <p class="section-title gap">Zona de peligro</p>
+          <button class="small-btn btn-danger" id="wipe-data" type="button">Borrar todos mis datos</button>
+        </section>
+      </div>
+      <p class="form-error" id="settings-error" role="alert"></p>
       <div class="dialog-actions">
         <button class="small-btn" value="cancel" formnovalidate>Cancelar</button>
         <button class="spark-btn sm" value="save"><span class="dots-border"></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="sparkle" aria-hidden="true"><path stroke-linejoin="round" stroke-linecap="round" d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z"/></svg><span class="text">Guardar</span></button>
@@ -178,10 +252,37 @@
     </form>
   </dialog>
 
+  <!-- Agentes -->
+  <dialog id="agents-dialog" aria-labelledby="agents-title">
+    <form method="dialog">
+      <div class="dlg-head"><h2 id="agents-title">Agentes especializados</h2></div>
+      <p class="hint">El coordinador elige los agentes que aportan valor a cada tarea. Si prefieres decidirlo tú, desactiva el modo automático.</p>
+      <div class="toggle-row"><span><strong>Automático</strong> (recomendado)</span><label class="switch"><input type="checkbox" id="agents-auto" aria-label="Selección automática de agentes"><span class="slider"></span></label></div>
+      <div id="agents-list" class="agents-list"></div>
+      <div class="dialog-actions"><button class="small-btn" value="close">Listo</button></div>
+    </form>
+  </dialog>
+
+  <!-- Proyectos -->
+  <dialog id="projects-dialog" class="wide" aria-labelledby="projects-title">
+    <div class="dlg-head"><h2 id="projects-title">Proyectos</h2><button class="icon-btn sm" type="button" onclick="this.closest('dialog').close()" aria-label="Cerrar">✕</button></div>
+    <ul id="proj-list" class="proj-list"></ul>
+    <form id="proj-form" class="proj-form">
+      <input type="hidden" id="proj-id">
+      <label class="form-row">Nombre<input id="proj-name" class="field" maxlength="40" placeholder="Mi tienda online" required></label>
+      <label class="form-row">Instrucciones del proyecto (opcional)<textarea id="proj-instr" class="field area" rows="4" maxlength="4000" placeholder="Stack, convenciones, decisiones ya tomadas…"></textarea></label>
+      <p class="form-error" id="proj-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="small-btn" id="proj-reset" type="button" hidden>Cancelar edición</button>
+        <button class="spark-btn sm" id="proj-save" type="submit"><span class="dots-border"></span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="sparkle" aria-hidden="true"><path stroke-linejoin="round" stroke-linecap="round" d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z"/><path stroke-linejoin="round" stroke-linecap="round" d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z"/></svg><span class="text">Crear proyecto</span></button>
+      </div>
+    </form>
+  </dialog>
+
   <!-- Añadir conector MCP -->
   <dialog id="mcp-add" aria-labelledby="mcp-add-title">
     <form method="dialog" id="mcp-form">
-      <h2 id="mcp-add-title">Añadir conector MCP</h2>
+      <div class="dlg-head"><h2 id="mcp-add-title">Añadir conector MCP</h2></div>
       <label class="form-row">Nombre<input id="mcp-name" class="field" maxlength="40" placeholder="GitHub, Notion, mi servidor…" required></label>
       <label class="form-row">URL del servidor MCP<input id="mcp-url" class="field" type="url" placeholder="https://mcp.ejemplo.com/mcp" required></label>
       <p class="hint">Si el servidor necesita clave, guárdala como secreto en Supabase. No la pongas en la URL.</p>
@@ -196,7 +297,7 @@
   <!-- Detalle de conector -->
   <dialog id="mcp-detail" aria-labelledby="mcp-detail-name">
     <form method="dialog">
-      <h2 id="mcp-detail-name"></h2>
+      <div class="dlg-head"><h2 id="mcp-detail-name"></h2></div>
       <p class="hint mono" id="mcp-detail-url"></p>
       <p class="section-title gap">Herramientas</p>
       <ul class="tool-list" id="mcp-tools"></ul>
@@ -208,13 +309,70 @@
     </form>
   </dialog>
 
+  <!-- Vista previa de código -->
+  <dialog id="preview-dialog" class="preview" aria-labelledby="preview-title">
+    <div class="dlg-head">
+      <h2 id="preview-title">Vista previa</h2>
+      <div class="segmented sm" id="preview-devices" role="group" aria-label="Tamaño de pantalla">
+        <button type="button" data-w="390px" aria-pressed="false">Móvil</button>
+        <button type="button" data-w="768px" aria-pressed="false">Tablet</button>
+        <button type="button" data-w="100%" aria-pressed="true">Escritorio</button>
+      </div>
+      <button class="small-btn" id="preview-download" type="button">Descargar</button>
+      <button class="icon-btn sm" type="button" onclick="this.closest('dialog').close()" aria-label="Cerrar vista previa">✕</button>
+    </div>
+    <div class="preview-stage"><iframe id="preview-frame" title="Vista previa aislada" sandbox="allow-scripts allow-forms allow-modals"></iframe></div>
+    <p class="hint pad">Se ejecuta aislada: sin acceso a tus conversaciones, claves ni datos de AURA-X.</p>
+  </dialog>
+
+  <!-- Paleta de comandos -->
+  <dialog id="palette" class="palette" aria-label="Buscador de comandos">
+    <div class="palette-box">
+      <input id="palette-input" class="palette-input" type="text" placeholder="Busca conversaciones o escribe una acción…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="palette-list">
+      <ul id="palette-list" class="palette-list" role="listbox"></ul>
+    </div>
+  </dialog>
+
+  <!-- Atajos -->
+  <dialog id="shortcuts-dialog" aria-labelledby="short-title">
+    <form method="dialog">
+      <div class="dlg-head"><h2 id="short-title">Atajos de teclado</h2></div>
+      <table class="shortcuts">
+        <tr><td>Buscador de comandos</td><td><kbd>Ctrl</kbd> <kbd>K</kbd></td></tr>
+        <tr><td>Nueva conversación</td><td><kbd>Alt</kbd> <kbd>N</kbd></td></tr>
+        <tr><td>Barra lateral</td><td><kbd>Alt</kbd> <kbd>B</kbd></td></tr>
+        <tr><td>Panel de actividad</td><td><kbd>Alt</kbd> <kbd>J</kbd></td></tr>
+        <tr><td>Ir al mensaje</td><td><kbd>/</kbd></td></tr>
+        <tr><td>Comandos en el mensaje</td><td><kbd>/</kbd> al empezar</td></tr>
+        <tr><td>Enviar · nueva línea</td><td><kbd>Enter</kbd> · <kbd>Shift</kbd> <kbd>Enter</kbd></td></tr>
+        <tr><td>Esta ayuda</td><td><kbd>?</kbd></td></tr>
+      </table>
+      <div class="dialog-actions"><button class="small-btn" value="close">Cerrar</button></div>
+    </form>
+  </dialog>
+
+  <!-- Confirmación -->
+  <dialog id="confirm-dialog" class="narrow" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <div class="dlg-head"><h2 id="confirm-title"></h2></div>
+      <p id="confirm-message" class="confirm-message"></p>
+      <div class="dialog-actions"><button class="small-btn" value="cancel">Cancelar</button><button class="small-btn solid" id="confirm-ok" value="ok">Confirmar</button></div>
+    </form>
+  </dialog>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <script src="js/storage.js"></script>
   <script src="js/store.js"></script>
   <script src="js/conversations.js"></script>
+  <script src="js/projects.js"></script>
   <script src="js/mcp.js"></script>
+  <script src="js/prompts.js"></script>
+  <script src="js/backup.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/render.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/palette.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
